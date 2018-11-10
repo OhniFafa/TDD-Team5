@@ -21,14 +21,14 @@ namespace Budget.Tests
 
 
         [TestMethod()]
-        public void NoBudgetAnd20180101To20180101_0()
+        public void SameDate_NoBudget()
         {
             SetupBudgeData(new List<Budget>());
             GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), 0);
         }
 
         [TestMethod()]
-        public void Jan31And20180101To20180101_1()
+        public void SameDate_WithBudgetInTheMonth_GreaterThan0()
         {
             List<Budget> budgets = new List<Budget>()
             {
@@ -40,7 +40,7 @@ namespace Budget.Tests
         }
 
         [TestMethod()]
-        public void Jan31And20180101To20180102_2()
+        public void CrossDate_WithBudgetInTheMonth()
         {
             List<Budget> budgets = new List<Budget>()
             {
@@ -52,7 +52,7 @@ namespace Budget.Tests
         }
 
         [TestMethod()]
-        public void Jan62And20180101To20180101_2()
+        public void SameDate_WithBudgetInTheMonth_GreaterThan0_2()
         {
             List<Budget> budgets = new List<Budget>()
             {
@@ -64,7 +64,7 @@ namespace Budget.Tests
         }
 
         [TestMethod()]
-        public void Jan31Feb280And20180131To20180201_11()
+        public void CrossMonth_WithBudgetInTheMonths()
         {
             List<Budget> budgets = new List<Budget>()
             {
@@ -77,7 +77,7 @@ namespace Budget.Tests
         }
 
         [TestMethod()]
-        public void Jan31Feb280Mar3100And20180101To20180331_3411()
+        public void Cross3Months_WithBudgetInMonths()
         {
             List<Budget> budgets = new List<Budget>()
             {
@@ -91,7 +91,7 @@ namespace Budget.Tests
         }
 
         [TestMethod()]
-        public void InvalidDate_0()
+        public void InvalidDateSeq()
         {
             List<Budget> budgets = new List<Budget>()
             {
@@ -104,7 +104,7 @@ namespace Budget.Tests
 
 
         [TestMethod()]
-        public void CrossYear_11()
+        public void CrossYear_WithBudgetInMonths()
         {
             List<Budget> budgets = new List<Budget>()
             {
