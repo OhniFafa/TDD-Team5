@@ -17,10 +17,13 @@ namespace Budget
 
         public double TotalAmount(DateTime start, DateTime end)
         {
-            if (_budgetRepo.GetAll().Count > 0)
+            var budgets = _budgetRepo.GetAll();
+            if (budgets.Count > 0)
             {
                 double days = (end - start).TotalDays + 1;
-                return days;
+                double amount = (budgets[0].Amount / 31) * days;
+
+                return amount;
             }
 
             return 0;

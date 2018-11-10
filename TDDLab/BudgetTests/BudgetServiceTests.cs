@@ -21,47 +21,69 @@ namespace Budget.Tests
 
 
         [TestMethod()]
-        public void NoBudget_20180101To20180101()
+        public void NoBudgetAnd20180101To20180101_0()
         {
-            var stub = new Mock<IBudgetRepo>();
-            stub.Setup(x => x.GetAll()).Returns(new List<Budget>());
-
-            Setup(stub.Object);
+            SetupBudgeData(new List<Budget>());
             GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), 0);
         }
 
         [TestMethod()]
-        public void Budget_Jan31_20180101To20180101()
+        public void Jan31And20180101To20180101_1()
         {
-            var stub = new Mock<IBudgetRepo>();
-            stub.Setup(x => x.GetAll()).Returns(new List<Budget>()
+            List<Budget> budgets = new List<Budget>()
             {
-                new Budget()
-                {
-                    YearMonth = "201801", 
-                    Amount = 31
-                }
-            });
+                new Budget(){ YearMonth = "201801", Amount = 31 }
+            };
 
-            Setup(stub.Object);
+            SetupBudgeData(budgets);
             GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), 1);
         }
 
         [TestMethod()]
-        public void Budget_Jan31_20180101To20180102()
+        public void Jan31And20180101To20180102_2()
+        {
+            List<Budget> budgets = new List<Budget>()
+            {
+                new Budget(){ YearMonth = "201801", Amount = 31 }
+            };
+
+            SetupBudgeData(budgets);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 2), 2);
+        }
+
+        [TestMethod()]
+        public void Jan62And20180101To20180101_2()
+        {
+            List<Budget> budgets = new List<Budget>()
+            {
+                new Budget(){ YearMonth = "201801", Amount = 62 }
+            };
+
+            SetupBudgeData(budgets);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), 2);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        private void SetupBudgeData(List<Budget> budgets)
         {
             var stub = new Mock<IBudgetRepo>();
-            stub.Setup(x => x.GetAll()).Returns(new List<Budget>()
-            {
-                new Budget()
-                {
-                    YearMonth = "201801",
-                    Amount = 31
-                }
-            });
+            stub.Setup(x => x.GetAll()).Returns(budgets);
 
             Setup(stub.Object);
-            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 2), 2);
         }
 
         private void GivenTwoDate_BudgetTotalAmountShouldBe(DateTime start, DateTime end, int expected)
