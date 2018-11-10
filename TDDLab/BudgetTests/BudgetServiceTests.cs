@@ -63,9 +63,32 @@ namespace Budget.Tests
             GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), 2);
         }
 
+        [TestMethod()]
+        public void Jan31Feb280And20180131To20180201_11()
+        {
+            List<Budget> budgets = new List<Budget>()
+            {
+                new Budget(){ YearMonth = "201801", Amount = 31 },
+                new Budget(){ YearMonth = "201802", Amount = 280 }
+            };
 
+            SetupBudgeData(budgets);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 31), new DateTime(2018, 2, 1), 11);
+        }
 
+        [TestMethod()]
+        public void Jan31Feb280Mar3100And20180101To20180331_3411()
+        {
+            List<Budget> budgets = new List<Budget>()
+            {
+                new Budget(){ YearMonth = "201801", Amount = 31 },
+                new Budget(){ YearMonth = "201802", Amount = 280 },
+                new Budget(){ YearMonth = "201803", Amount = 3100 },
+            };
 
+            SetupBudgeData(budgets);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 3, 31), 3411);
+        }
 
 
 

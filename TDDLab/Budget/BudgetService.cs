@@ -20,15 +20,54 @@ namespace Budget
             var budgets = _budgetRepo.GetAll();
             if (budgets.Count > 0)
             {
-                double days = (end - start).TotalDays + 1;
-                double amount = (budgets[0].Amount / 31) * days;
+                bool isDifferentMonth = !start.ToString("yyyyMM").Equals(end.ToString("yyyyMM"));
+                Dictionary<string, int> monthDaysMap = new Dictionary<string, int>();
 
-                return amount;
+
+                while (start <= end)
+                {
+                    string key = start.ToString("yyyyMM");
+                    if (monthDaysMap.ContainsKey(key))
+                    {
+                        monthDaysMap[key]++;
+                    }
+                    else
+                    {
+                        monthDaysMap.Add(key, 1);
+                    }
+
+                    start = start.AddDays(1);
+                }
+
+                Dictionary<string, int> monthPerDayBudget = budgets.ToDictionary(x => x.YearMonth,
+                    x => x.Amount / _GetDaysInTheMonth(x.YearMonth));
+
+
+                double result = 0;
+
+                foreach (string monthKey in monthDaysMap.Keys)
+                {
+
+                    if (monthPerDayBudget.ContainsKey(monthKey))
+                    {
+                        result += monthDaysMap[monthKey] * monthPerDayBudget[monthKey];
+                    }
+                }
+
+                return result;
             }
 
             return 0;
         }
+
+        private int _GetDaysInTheMonth(string yyyyMM)
+        {
+            return new DateTime(int.Parse(yyyyMM.Substring(0, 4)),
+                int.Parse(yyyyMM.Substring(4, 2)), 1).AddMonths(1).AddDays(-1).Day;
+        }
     }
+
+
 
     public interface IBudgetRepo
     {
