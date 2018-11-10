@@ -20,7 +20,6 @@ namespace Budget
             var budgets = _budgetRepo.GetAll();
             if (budgets.Count > 0)
             {
-                bool isDifferentMonth = !start.ToString("yyyyMM").Equals(end.ToString("yyyyMM"));
                 Dictionary<string, int> monthDaysMap = new Dictionary<string, int>();
 
 

@@ -90,15 +90,31 @@ namespace Budget.Tests
             GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 3, 31), 3411);
         }
 
+        [TestMethod()]
+        public void InvalidDate_0()
+        {
+            List<Budget> budgets = new List<Budget>()
+            {
+                new Budget(){ YearMonth = "201801", Amount = 31 }
+            };
+
+            SetupBudgeData(budgets);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 2), new DateTime(2018, 1, 1), 0);
+        }
 
 
+        [TestMethod()]
+        public void CrossYear_11()
+        {
+            List<Budget> budgets = new List<Budget>()
+            {
+                new Budget(){ YearMonth = "201712", Amount = 31 },
+                new Budget(){ YearMonth = "201801", Amount = 310 },
+            };
 
-
-
-
-
-
-
+            SetupBudgeData(budgets);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2017, 12, 31), new DateTime(2018, 1, 1), 11);
+        }
 
 
         private void SetupBudgeData(List<Budget> budgets)
