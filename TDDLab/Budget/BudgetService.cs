@@ -19,7 +19,8 @@ namespace Budget
         {
             if (_budgetRepo.GetAll().Count > 0)
             {
-                return 1;
+                double days = (end - start).TotalDays + 1;
+                return days;
             }
 
             return 0;

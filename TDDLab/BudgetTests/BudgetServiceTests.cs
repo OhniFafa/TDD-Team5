@@ -27,12 +27,7 @@ namespace Budget.Tests
             stub.Setup(x => x.GetAll()).Returns(new List<Budget>());
 
             Setup(stub.Object);
-            DateTime start = new DateTime(2018, 1, 1);
-            DateTime end = new DateTime(2018, 1, 1);
-
-            double result = _budgetService.TotalAmount(start, end);
-
-            Assert.AreEqual(0, result);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), 0);
         }
 
         [TestMethod()]
@@ -49,12 +44,30 @@ namespace Budget.Tests
             });
 
             Setup(stub.Object);
-            DateTime start = new DateTime(2018, 1, 1);
-            DateTime end = new DateTime(2018, 1, 1);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 1), 1);
+        }
 
+        [TestMethod()]
+        public void Budget_Jan31_20180101To20180102()
+        {
+            var stub = new Mock<IBudgetRepo>();
+            stub.Setup(x => x.GetAll()).Returns(new List<Budget>()
+            {
+                new Budget()
+                {
+                    YearMonth = "201801",
+                    Amount = 31
+                }
+            });
+
+            Setup(stub.Object);
+            GivenTwoDate_BudgetTotalAmountShouldBe(new DateTime(2018, 1, 1), new DateTime(2018, 1, 2), 2);
+        }
+
+        private void GivenTwoDate_BudgetTotalAmountShouldBe(DateTime start, DateTime end, int expected)
+        {
             double result = _budgetService.TotalAmount(start, end);
-
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(expected, result);
         }
     }
 }
